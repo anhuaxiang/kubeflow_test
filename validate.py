@@ -1,42 +1,34 @@
 import argparse
-import os
 
 
-def validate(output_dir, filename):
-    f = open(filename, 'rb+')
-    lessOutput_path = os.path.join(output_dir, 'lessThanZero.txt')
-    f1 = open(lessOutput_path, 'w')
-
-    moreOutput_path = os.path.join(output_dir, 'moreThanZero.txt')
-    f2 = open(moreOutput_path, 'w')
-    lines = f.readlines()
-    for line in lines:
-        num = int(line)
-        if num > 0:
-            f1.write(str(num) + "\n")
-        elif num < 0:
-            f2.write(str(num) + "\n")
-    f.close()
-    f1.close()
-    f2.close()
-    with open('/lessFilePath.txt', 'w+') as f:
-        f.write(lessOutput_path)
-    with open('/moreFilePath.txt', 'w+') as f:
-        f.write(moreOutput_path)
+def validate(data):
+    data = eval(data)
+    print(f'validate origin data: {data}')
+    less_data = []
+    more_data = []
+    for i in data:
+        if i > 0:
+            more_data.append(i)
+        elif i < 0:
+            less_data.append(i)
+    with open('/less_data.txt', 'w+') as f:
+        f.write(str(less_data))
+    with open('/more_data.txt', 'w+') as f:
+        f.write(str(more_data))
+    print(f'more than zero data: {more_data}')
+    print(f'less than zero data: {less_data}')
 
 
 def parse_arguments():
-    """Parse command line arguments."""
     parser = argparse.ArgumentParser()
-    parser.add_argument('--inputFilename', type=str, required=True, help='local file to be input')
-    parser.add_argument('--output_dir', type=str, required=True, help='local file to be input')
+    parser.add_argument('--data', type=str, required=True, help='input data, ex: [1, -1, 2, 4, -3]')
     args = parser.parse_args()
     return args
 
 
 def main():
     args = parse_arguments()
-    validate(args.output_dir, args.inputFilename)
+    validate(args.data)
 
 
 if __name__ == '__main__':
