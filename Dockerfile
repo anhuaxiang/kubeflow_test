@@ -3,4 +3,4 @@ RUN mkdir -p /app
 ENV APP_HOME /app
 COPY ./ $APP_HOME
 WORKDIR $APP_HOME
-ENTRYPOINT ["python", "less_than_zero.py"]
+ENTRYPOINT ["python", "validate.py"]

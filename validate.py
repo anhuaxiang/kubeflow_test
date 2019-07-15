@@ -1,3 +1,4 @@
+import json
 import argparse
 
 
@@ -17,6 +18,32 @@ def validate(data):
         f.write(str(more_data))
     print(f'more than zero data: {more_data}')
     print(f'less than zero data: {less_data}')
+    static_html_path = '/aaa.html'
+    with open(static_html_path, 'w') as f:
+        f.write("""
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset="utf-8">
+                    <title>Pipeline</title>
+                </head>
+                <body>
+                    <h1>pipeline output</h1>
+                    <p>pipeline output web</p>
+                </body>
+            </html>
+        
+        """)
+
+    metadata = {
+        'outputs': [{
+            'type': 'web-app',
+            'storage': 'gcs',
+            'source': static_html_path,
+        }]
+    }
+    with open('/mlpipeline-ui-metadata.json', 'w') as f:
+        json.dump(metadata, f)
 
 
 def parse_arguments():
